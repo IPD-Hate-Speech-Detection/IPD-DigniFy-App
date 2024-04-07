@@ -1,0 +1,47 @@
+name: dignify
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  google_nav_bar: ^5.0.6
+  flutter_native_splash:
+  get: ^4.6.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/logo.png
+    - assets/images/splash.jpg
+    - assets/images/cover1.png
+    - assets/images/cover2.png
+
+flutter_native_splash:
+  color: "#000000"
+  image: assets/images/splash.jpg
+
+  # From Android 12 onwards, the splash screen is handled differently than in previous versions.
+  # Please visit https://developer.android.com/guide/topics/ui/splash-screen
+  # Following are specific parameters for Android 12+.
+  android_12:
+    image: assets/images/splash.jpg
+    color: "#000000"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: "AppIcon"
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
