@@ -1,12 +1,21 @@
 import 'package:dignify/screens/cover_page.dart';
+import 'package:dignify/screens/login_page.dart';
+import 'package:dignify/screens/signup_page.dart';
+import 'package:dignify/utilities/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'utilities/firebase_options.dart';
 
-void main() {
+void main() async {
   // WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await Future.delayed(const Duration(seconds: 4));
   // FlutterNativeSplash.remove();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MainApp());
 }
 
@@ -18,7 +27,8 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: CoverPage(),
+      home: const AuthCheck(),
+      
     );
   }
 }

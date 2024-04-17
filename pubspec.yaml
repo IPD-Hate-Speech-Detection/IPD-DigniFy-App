@@ -13,6 +13,11 @@ dependencies:
   google_nav_bar: ^5.0.6
   flutter_native_splash:
   get: ^4.6.6
+  firebase_core: ^2.28.0
+  cloud_firestore: ^4.16.0
+  firebase_auth: ^4.19.0
+  flutter_email_sender: ^6.0.2
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +32,9 @@ flutter:
     - assets/images/splash.jpg
     - assets/images/cover1.png
     - assets/images/cover2.png
+    - assets/images/login1.png
+    - assets/images/loginlogo.png
+    - assets/images/login_background.jpg
 
 flutter_native_splash:
   color: "#000000"

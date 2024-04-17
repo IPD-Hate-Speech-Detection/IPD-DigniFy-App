@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271947096756",
+    "project_id": "dignify-ipd-project",
+    "storage_bucket": "dignify-ipd-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271947096756:android:b1545c59727a22ab162de1",
+        "android_client_info": {
+          "package_name": "com.example.dignify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVGmTo5cnlJ_Qk0eJ1nuDif_oLnI8CgS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

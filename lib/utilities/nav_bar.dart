@@ -13,7 +13,11 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int myIndex = 0;
-  final List _screens = const [TextDetectionPage(), ProfilePage(), FavouritesPage()];
+  final List _screens =  [
+    TextDetectionPage(),
+    FavouritesPage(),
+    ProfilePage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
