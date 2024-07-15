@@ -1,10 +1,8 @@
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/otp_verification.dart';
 import 'package:dignify/screens/login_page.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class ChangePassword extends StatefulWidget {
@@ -15,7 +13,7 @@ class ChangePassword extends StatefulWidget {
 }
 
 class _ChangePasswordState extends State<ChangePassword> {
-  TextEditingController _email = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -32,7 +30,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       decoration: BoxDecoration(
         color: myColor,
         image: DecorationImage(
-          image: AssetImage("assets/images/login_background.jpg"),
+          image: const AssetImage("assets/images/login_background.jpg"),
           fit: BoxFit.cover,
           colorFilter:
               ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
@@ -58,7 +56,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   Widget BuildTop() {
     return SizedBox(
       width: mediaSize.width,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -85,7 +83,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(32.0),
           child: BuildForm(),
         ),
       ),
@@ -94,20 +92,20 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Widget BuildForm() {
     return Form(
-      key: _formKey, // Assign the form key
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             "Change Password",
             style: TextStyle(
                 color: Colors.white, fontSize: 32, fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: 20),
-          Text("Enter Email"),
+          const SizedBox(height: 20),
+          const Text("Enter Email"),
           TextFormField(
             controller: _email,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Email Address",
               prefixIcon: Icon(Icons.email),
               border: OutlineInputBorder(
@@ -128,17 +126,14 @@ class _ChangePasswordState extends State<ChangePassword> {
               return null;
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Center(
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Validate the form before proceeding
                   if (_formKey.currentState!.validate()) {
                     _resetPassword(_email.text.trim());
-                    // If the form is valid, proceed with sign-up logic
-                    // Access _name.text, _email.text, and _password.text to get user inputs
                   }
                 },
                 style: ButtonStyle(
@@ -156,7 +151,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -179,13 +174,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                 onPressed: () {
                   Navigator.pop(context); // Close the dialog
                   // Navigate to another page here
-                  Get.offAll(() => LoginPage());
+                  Get.offAll(() => const LoginPage());
                 },
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.amber),
                 ),
-                child: Text(
+                child: const Text(
                   "Okay",
                   style: TextStyle(color: Colors.black),
                 ),
