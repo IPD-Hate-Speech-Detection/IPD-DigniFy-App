@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/screens/otp_verification.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dignify/models/user_model.dart';
@@ -19,11 +20,11 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late Color myColor;
   late Size mediaSize;
+  var _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
           ),
         ),
-        child: Scaffold(
+        child:_isLoading?const LoadingIndicatorWidget(): Scaffold(
           backgroundColor: Colors.transparent,
           body: Stack(
             children: [
               Positioned(top: 80, child: BuildTop()),
               Positioned(
-                child: BottomBuild(),
                 bottom: 0,
+                child: BottomBuild(),
+              
               ),
             ],
           ),
@@ -184,6 +186,7 @@ class _SignUpPageState extends State<SignUpPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
+                  
                   if (_formKey.currentState!.validate()) {
                     Get.to(() => OtpVerfiicationPage(
                         email: _email.text,
@@ -229,6 +232,4 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-
- 
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/screens/login_page.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,6 +31,7 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
   late Color myColor;
   late Size mediaSize;
   late int generatedOtp;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -47,6 +49,9 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
 
   Future<void> sendMail() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       // Define the API endpoint URL
       String url = 'https://api.mailersend.com/v1/email';
 
@@ -80,14 +85,23 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
       // Check the response status code
       if (response.statusCode == 200) {
         print('Email sent successfully');
+        setState(() {
+          _isLoading = false;
+        });
       } else {
         print('Failed to send email. Status code: ${response.statusCode}');
         print('Response body: ${response.body}');
+        setState(() {
+          _isLoading = false;
+        });
         // Handle the error accordingly
       }
     } catch (error) {
       print('Error sending email: $error');
       // Handle the error accordingly
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -106,18 +120,20 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
               ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Positioned(top: 80, child: BuildTop()),
-            Positioned(
-              child: BottomBuild(),
-              bottom: 0,
+      child: _isLoading
+          ? LoadingIndicatorWidget()
+          : Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Stack(
+                children: [
+                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(
+                    child: BottomBuild(),
+                    bottom: 0,
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -164,7 +180,7 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         const Text(
+          const Text(
             "Email OTP Verification",
             style: TextStyle(
                 color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
@@ -268,6 +284,4 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
       ),
     );
   }
-
- 
 }

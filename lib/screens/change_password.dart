@@ -1,6 +1,7 @@
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/screens/otp_verification.dart';
 import 'package:dignify/screens/login_page.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -20,6 +21,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   late Color myColor;
   late Size mediaSize;
+  var _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +38,20 @@ class _ChangePasswordState extends State<ChangePassword> {
               ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Positioned(top: 80, child: BuildTop()),
-            Positioned(
-              child: BottomBuild(),
-              bottom: 0,
+      child: _isLoading
+          ? const LoadingIndicatorWidget()
+          : Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Stack(
+                children: [
+                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(
+                    bottom: 0,
+                    child: BottomBuild(),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -160,6 +164,9 @@ class _ChangePasswordState extends State<ChangePassword> {
 
   Future<void> _resetPassword(String email) async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       showDialog(
         context: context,
@@ -192,9 +199,15 @@ class _ChangePasswordState extends State<ChangePassword> {
       if (error.hashCode == 'user-not-found') {
         _showMessage(
             "This email is not registered. Please check your email address.");
+        setState(() {
+          _isLoading = false;
+        });
       } else {
         print('Error sending password reset email: $error');
         _showMessage('Failed to send password reset email. Please try again.');
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

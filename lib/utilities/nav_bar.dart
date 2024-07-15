@@ -1,4 +1,5 @@
 import 'package:dignify/screens/favourites_page.dart';
+import 'package:dignify/screens/home_page.dart';
 import 'package:dignify/screens/profile_page.dart';
 import 'package:dignify/screens/text_detection.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,9 @@ class NavBar extends StatefulWidget {
 
 class _NavBarState extends State<NavBar> {
   int myIndex = 0;
-  final List _screens =  [
-    TextDetectionPage(),
-    FavouritesPage(),
+  final List _screens = [
+    const HomePage(),
+   const FavouritesPage(),
     ProfilePage(),
   ];
   @override

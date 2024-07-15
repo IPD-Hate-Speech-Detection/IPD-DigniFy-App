@@ -2,6 +2,7 @@ import 'package:dignify/screens/cover_page.dart';
 import 'package:dignify/screens/login_page.dart';
 import 'package:dignify/screens/signup_page.dart';
 import 'package:dignify/utilities/auth_check.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: const AuthCheck(),
-      
     );
   }
 }

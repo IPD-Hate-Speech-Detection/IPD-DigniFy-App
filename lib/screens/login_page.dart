@@ -2,6 +2,7 @@ import 'package:dignify/screens/change_password.dart';
 import 'package:dignify/screens/otp_verification.dart';
 import 'package:dignify/utilities/auth_check.dart';
 import 'package:dignify/utilities/nav_bar.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dignify/constants/colors.dart';
@@ -21,7 +22,8 @@ class _LoginPageState extends State<LoginPage> {
   late Color myColor;
   late Size mediaSize;
   var _isObscure = true;
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
+  final _formKey = GlobalKey<FormState>();
+  var _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,18 +42,20 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Positioned(top: 80, child: BuildTop()),
-            Positioned(
-              child: BottomBuild(),
-              bottom: 0,
+      child: _isLoading
+          ? const LoadingIndicatorWidget()
+          : Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Stack(
+                children: [
+                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(
+                    child: BottomBuild(),
+                    bottom: 0,
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -173,7 +177,7 @@ class _LoginPageState extends State<LoginPage> {
                   "Forgot Password?",
                   style: TextStyle(
                     color: Colors.blue,
-                    decoration: TextDecoration.underline,
+                    decoration: TextDecoration.none,
                   ),
                 ),
               ),
@@ -209,17 +213,23 @@ class _LoginPageState extends State<LoginPage> {
           ),
           SizedBox(height: 10), // Add some spacing
           Center(
-            child: GestureDetector(
-              onTap: () {
-                print("Signup Page");
-                Get.to(() => SignUpPage());
-              },
-              child: const Text(
-                "Don't have an account? Sign Up",
-                style: TextStyle(
-                  color: Colors.blue,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Don't have an account?"),
+                SizedBox(width: 5),
+                GestureDetector(
+                  onTap: () {
+                    Get..to(SignUpPage());
+                  },
+                  child: const Text(
+                    "Signup",
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -242,16 +252,28 @@ class _LoginPageState extends State<LoginPage> {
 
   SignIn() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: _email.text, password: _password.text);
       print("login successful");
+      setState(() {
+        _isLoading = false;
+      });
       // Navigate to AuthCheck only when login is successful
       Get.offAll(() => AuthCheck());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential' || e.code == 'wrong-password') {
+        setState(() {
+          _isLoading = false;
+        });
         _showToast("Incorrect Login Credentials");
       } else {
         print(e);
+        setState(() {
+          _isLoading = false;
+        });
         _showToast("Incorrect Login Credentials");
       }
     }
