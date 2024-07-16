@@ -1,11 +1,8 @@
-import 'package:dignify/screens/cover_page.dart';
-import 'package:dignify/screens/login_page.dart';
-import 'package:dignify/screens/signup_page.dart';
 import 'package:dignify/utilities/auth_check.dart';
-import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'utilities/firebase_options.dart';
 
 void main() async {
@@ -27,7 +24,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData(
+          fontFamily: GoogleFonts.ptSans().fontFamily,
+          colorScheme: const ColorScheme.dark()),
       home: const AuthCheck(),
     );
   }

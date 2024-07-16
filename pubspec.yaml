@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
   google_nav_bar: ^5.0.6
-  flutter_native_splash:
+  flutter_native_splash: ^2.4.1
   get: ^4.6.6
   firebase_core: ^2.28.0
   cloud_firestore: ^4.16.0
@@ -19,6 +19,7 @@ dependencies:
   flutter_email_sender: ^6.0.2
   http: ^1.2.1
   flutter_spinkit: ^5.2.1
+  google_fonts: ^6.2.1
 
 dev_dependencies:
   flutter_test:
@@ -39,14 +40,14 @@ flutter:
 
 flutter_native_splash:
   color: "#000000"
-  image: assets/images/splash.jpg
+  image: assets/images/splash.png
+  fullscreen: true
 
-  # From Android 12 onwards, the splash screen is handled differently than in previous versions.
-  # Please visit https://developer.android.com/guide/topics/ui/splash-screen
-  # Following are specific parameters for Android 12+.
+
   android_12:
-    image: assets/images/splash.jpg
+    image: assets/images/splash.png
     color: "#000000"
+    fullscreen: true
 
 flutter_launcher_icons:
   android: "launcher_icon"

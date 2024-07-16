@@ -191,7 +191,7 @@ class _ChangePasswordState extends State<ChangePassword> {
       );
     } catch (error) {
       // Likely "user-not-found" error if email doesn't exist
-      if (error.hashCode == 'user-not-found') {
+      if (error.hashCode.toString() == 'user-not-found') {
         _showMessage(
             "This email is not registered. Please check your email address.");
         setState(() {
