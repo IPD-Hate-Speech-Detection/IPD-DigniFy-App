@@ -12,7 +12,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
   final TextEditingController _textDataController = TextEditingController();
   bool _isEnglishSelected = false;
   bool _isHindiSelected = false;
-  bool _isOthersSelected = false;
+  bool _isMarathiSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -45,57 +45,66 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
               Row(
                 children: [
                   FilterChip(
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 103, 183, 248),
+                    labelStyle: TextStyle(
+                      color: _isEnglishSelected
+                          ? Colors.white
+                          : const Color.fromARGB(255, 3, 141, 254),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    checkmarkColor: Colors.green,
+                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
                     selected: _isEnglishSelected,
+                    selectedColor: Colors.blue,
                     label: const Text('English'),
                     onSelected: (bool selected) {
                       setState(() {
                         _isEnglishSelected = selected;
                         if (selected) {
                           _isHindiSelected = false;
-                          _isOthersSelected = false;
+                          _isMarathiSelected = false;
                         }
                       });
                     },
                   ),
                   const SizedBox(width: 10),
                   FilterChip(
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 103, 183, 248),
+                    labelStyle: TextStyle(
+                      color: _isHindiSelected
+                          ? Colors.white
+                          : const Color.fromARGB(255, 2, 141, 255),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    checkmarkColor: Colors.green,
+                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
                     selected: _isHindiSelected,
+                    selectedColor: Colors.blue,
                     label: const Text('हिन्दी'),
                     onSelected: (bool selected) {
                       setState(() {
                         _isHindiSelected = selected;
                         if (selected) {
                           _isEnglishSelected = false;
-                          _isOthersSelected = false;
+                          _isMarathiSelected = false;
                         }
                       });
                     },
                   ),
                   const SizedBox(width: 10),
                   FilterChip(
-                    labelStyle: const TextStyle(
-                      color: Color.fromARGB(255, 103, 183, 248),
+                    labelStyle: TextStyle(
+                      color: _isMarathiSelected
+                          ? Colors.white
+                          : const Color.fromARGB(255, 3, 141, 254),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    checkmarkColor: Colors.green,
-                    selected: _isOthersSelected,
+                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
+                    selected: _isMarathiSelected,
+                    selectedColor: Colors.blue,
                     label: const Text('मराठी'),
                     onSelected: (bool selected) {
                       setState(() {
-                        _isOthersSelected = selected;
+                        _isMarathiSelected = selected;
                         if (selected) {
                           _isEnglishSelected = false;
                           _isHindiSelected = false;
@@ -141,6 +150,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                 ),
                 child: const Text(
                   "Detect Hate Speech",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 25),

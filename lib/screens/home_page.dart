@@ -1,4 +1,4 @@
-import 'package:dignify/screens/text_detection.dart';
+import 'package:dignify/screens/text_detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,6 +28,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.3),
                     border: Border.all(color: Colors.blueGrey),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -39,7 +40,7 @@ class HomePage extends StatelessWidget {
                           Icons.text_fields,
                           size: 60,
                         ),
-                        Spacer(),
+                        SizedBox(width: 20),
                         Text(
                           "Text Detection",
                           style: TextStyle(
@@ -60,6 +61,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.3),
                     border: Border.all(color: Colors.blueGrey),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -71,7 +73,7 @@ class HomePage extends StatelessWidget {
                           Icons.image,
                           size: 60,
                         ),
-                        Spacer(),
+                        SizedBox(width: 20),
                         Text(
                           "Image Detection",
                           style: TextStyle(
@@ -92,6 +94,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.3),
                     border: Border.all(color: Colors.blueGrey),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -103,7 +106,7 @@ class HomePage extends StatelessWidget {
                           Icons.video_call,
                           size: 60,
                         ),
-                        Spacer(),
+                        SizedBox(width: 20),
                         Text(
                           "Video Detection",
                           style: TextStyle(

@@ -1,7 +1,5 @@
 import 'package:dignify/screens/change_password.dart';
-import 'package:dignify/screens/otp_verification.dart';
 import 'package:dignify/utilities/auth_check.dart';
-import 'package:dignify/utilities/nav_bar.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
         color: myColor,
         image: DecorationImage(
-          image: AssetImage("assets/images/login_background.jpg"),
+          image:const AssetImage("assets/images/login_background.jpg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             myColor.withOpacity(0.9),

@@ -1,6 +1,5 @@
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/screens/login_page.dart';
-import 'package:dignify/utilities/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +10,7 @@ class CoverPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:const Text("Hate Speech Detector"),
+        title: const Text("Hate Speech Detector"),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -102,10 +101,10 @@ class CoverPage extends StatelessWidget {
                 )),
             Container(
               width: double.infinity,
-              padding:const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(() =>const LoginPage());
+                  Get.to(() => const LoginPage());
                 },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -120,6 +119,7 @@ class CoverPage extends StatelessWidget {
                 ),
                 child: const Text(
                   "Start Detecting",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
             ),

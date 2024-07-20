@@ -1,13 +1,9 @@
-import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/screens/otp_verification.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:dignify/models/user_model.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter_email_sender/flutter_email_sender.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
