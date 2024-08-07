@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({Key? key}) : super(key: key);
+  ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class ProfilePage extends StatelessWidget {
     try {
       await FirebaseAuth.instance.signOut();
       print('User signed out successfully');
-      Get.offAll(() => AuthCheck());
+      Get.offAll(() =>const AuthCheck());
     } catch (error) {
       print('Error signing out user: $error');
     }

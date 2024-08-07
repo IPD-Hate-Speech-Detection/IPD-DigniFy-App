@@ -10,10 +10,10 @@ void main() async {
   // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   // await Future.delayed(const Duration(seconds: 4));
   // FlutterNativeSplash.remove();
+
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MainApp());
 }
 
@@ -25,8 +25,9 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          fontFamily: GoogleFonts.ptSans().fontFamily,
-          colorScheme: const ColorScheme.dark()),
+        fontFamily: GoogleFonts.ptSans().fontFamily,
+        colorScheme: const ColorScheme.dark(),
+      ),
       home: const AuthCheck(),
     );
   }

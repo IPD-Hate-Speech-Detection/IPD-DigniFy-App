@@ -1,5 +1,7 @@
 import 'package:dignify/constants/colors.dart';
+import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:dignify/services/text_detection_service.dart';
 
 class TextDetectionPage extends StatefulWidget {
   const TextDetectionPage({super.key});
@@ -13,6 +15,33 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
   bool _isEnglishSelected = false;
   bool _isHindiSelected = false;
   bool _isMarathiSelected = false;
+  String _result = '';
+  bool _isLoading = false;
+
+  final TextDetectionService _textDetectionService = TextDetectionService();
+
+  Future<void> _detectHateSpeech() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final id =
+          await _textDetectionService.getEventId(_textDataController.text);
+      final result = await _textDetectionService.getCompleteResult(id);
+      setState(() {
+        _result = result;
+      });
+    } catch (e) {
+      setState(() {
+        _result = 'Error: ${e.toString()}';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +165,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: _isLoading ? null : _detectHateSpeech,
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -154,7 +183,24 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                 ),
               ),
               const SizedBox(height: 25),
-              const Text("Results")
+              const Text("Results"),
+              const SizedBox(height: 10),
+              _isLoading
+                  ? const SizedBox(
+                      child: Center(
+                        child: LoadingIndicatorWidget(),
+                      ),
+                    )
+                  : Text(
+                      _result,
+                      style: TextStyle(
+                        color: _result.startsWith('Error') ||
+                                _result.contains("hate")
+                            ? Colors.red
+                            : Colors.green,
+                        fontSize: 16,
+                      ),
+                    ),
             ],
           ),
         ),
