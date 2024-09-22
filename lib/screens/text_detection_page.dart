@@ -13,28 +13,87 @@ class TextDetectionPage extends StatefulWidget {
 class _TextDetectionPageState extends State<TextDetectionPage> {
   final TextEditingController _textDataController = TextEditingController();
   bool _isEnglishSelected = false;
-  bool _isHindiSelected = false;
-  bool _isMarathiSelected = false;
+  bool _isHinglishSelected = false;
   String _result = '';
   bool _isLoading = false;
+  var _resultColor;
 
-  final TextDetectionService _textDetectionService = TextDetectionService();
+  final EnglishTextDetectionService _englishTextDetectionService =
+      EnglishTextDetectionService();
+  final HinglishTextDetectionService _hinglishTextDetectionService =
+      HinglishTextDetectionService();
 
   Future<void> _detectHateSpeech() async {
+    if (!_isEnglishSelected && !_isHinglishSelected) {
+      setState(() {
+        _result = 'Please select a language.';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
     try {
-      final id =
-          await _textDetectionService.getEventId(_textDataController.text);
-      final result = await _textDetectionService.getCompleteResult(id);
-      setState(() {
-        _result = result;
-      });
+      if (_isEnglishSelected) {
+        final id = await _englishTextDetectionService
+            .getEnglishEventId(_textDataController.text);
+        final result =
+            await _englishTextDetectionService.getEnglishCompleteResult(id);
+        if (result.contains("NEITHER")) {
+          setState(() {
+            _resultColor = Colors.green;
+            _result = "The Statement is classified as normal speech";
+          });
+        } else {
+          setState(() {
+            _resultColor = Colors.red;
+            _result = "The Statement is classified as hate speech";
+          });
+        }
+      }
+
+      if (_isHinglishSelected) {
+        final id = await _hinglishTextDetectionService
+            .getHinglishEventId(_textDataController.text);
+        final result =
+            await _hinglishTextDetectionService.getHinglishCompleteResult(id);
+
+        String classificationMessage;
+        Color resultColor;
+
+        switch (result[0]) {
+          case "OAG":
+            classificationMessage =
+                "The Statement is classified as overtly aggressive.";
+            resultColor = Colors.red; // Overtly Aggressive
+            break;
+          case "CAG":
+            classificationMessage =
+                "The Statement is classified as covertly aggressive.";
+            resultColor = Colors.red; // Covertly Aggressive
+            break;
+          case "NAG":
+            classificationMessage =
+                "The Statement is classified as not aggressive.";
+            resultColor = Colors.green; // Not Aggressive
+            break;
+          default:
+            classificationMessage = "Unknown classification.";
+            resultColor = Colors.grey; // Unknown
+            break;
+        }
+
+        setState(() {
+          _result = classificationMessage;
+          _resultColor = resultColor; // Add this line
+        });
+      }
     } catch (e) {
       setState(() {
         _result = 'Error: ${e.toString()}';
+        _resultColor = Colors.red; // Error color
       });
     } finally {
       setState(() {
@@ -81,7 +140,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
+                    checkmarkColor: Colors.white,
                     selected: _isEnglishSelected,
                     selectedColor: Colors.blue,
                     label: const Text('English'),
@@ -89,8 +148,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                       setState(() {
                         _isEnglishSelected = selected;
                         if (selected) {
-                          _isHindiSelected = false;
-                          _isMarathiSelected = false;
+                          _isHinglishSelected = false;
                         }
                       });
                     },
@@ -98,49 +156,26 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                   const SizedBox(width: 10),
                   FilterChip(
                     labelStyle: TextStyle(
-                      color: _isHindiSelected
+                      color: _isHinglishSelected
                           ? Colors.white
                           : const Color.fromARGB(255, 2, 141, 255),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
-                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
-                    selected: _isHindiSelected,
+                    checkmarkColor: Colors.white,
+                    selected: _isHinglishSelected,
                     selectedColor: Colors.blue,
-                    label: const Text('हिन्दी'),
+                    label: const Text('Hinglish'),
                     onSelected: (bool selected) {
                       setState(() {
-                        _isHindiSelected = selected;
+                        _isHinglishSelected = selected;
                         if (selected) {
                           _isEnglishSelected = false;
-                          _isMarathiSelected = false;
                         }
                       });
                     },
                   ),
                   const SizedBox(width: 10),
-                  FilterChip(
-                    labelStyle: TextStyle(
-                      color: _isMarathiSelected
-                          ? Colors.white
-                          : const Color.fromARGB(255, 3, 141, 254),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    checkmarkColor: const Color.fromARGB(255, 3, 255, 12),
-                    selected: _isMarathiSelected,
-                    selectedColor: Colors.blue,
-                    label: const Text('मराठी'),
-                    onSelected: (bool selected) {
-                      setState(() {
-                        _isMarathiSelected = selected;
-                        if (selected) {
-                          _isEnglishSelected = false;
-                          _isHindiSelected = false;
-                        }
-                      });
-                    },
-                  ),
                 ],
               ),
               const SizedBox(height: 15),
@@ -165,7 +200,12 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: _isLoading ? null : _detectHateSpeech,
+                onPressed: _isLoading
+                    ? null
+                    : () {
+                        FocusScope.of(context).unfocus();
+                        _detectHateSpeech();
+                      },
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -194,10 +234,7 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                   : Text(
                       _result,
                       style: TextStyle(
-                        color: _result.startsWith('Error') ||
-                                _result.contains("hate")
-                            ? Colors.red
-                            : Colors.green,
+                        color: _resultColor,
                         fontSize: 16,
                       ),
                     ),

@@ -8,15 +8,15 @@ import 'package:dignify/screens/signup_page.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key}) ;
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+ final TextEditingController _email = TextEditingController();
+ final TextEditingController _password = TextEditingController();
   late Color myColor;
   late Size mediaSize;
   var _isObscure = true;

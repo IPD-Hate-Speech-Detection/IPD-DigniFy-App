@@ -1,3 +1,4 @@
+import 'package:dignify/screens/image_detection_page.dart';
 import 'package:dignify/screens/text_detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
                 height: 25,
               ),
               InkWell(
-                onTap: () => _showToast(context, "Coming soon"),
+                onTap: () => Get.to(const ImageDetectionPage()),
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(

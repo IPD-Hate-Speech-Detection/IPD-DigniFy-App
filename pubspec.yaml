@@ -1,7 +1,7 @@
 name: dignify
 description: A new Flutter project.
 publish_to: "none"
-version: 0.1.0
+version: 0.1.1
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -19,6 +19,7 @@ dependencies:
   google_fonts: ^6.2.1
   firebase_auth: ^4.19.6
   firebase_core: ^2.31.1
+  file_picker: ^8.0.7
 
 dev_dependencies:
   flutter_test:
