@@ -1,6 +1,6 @@
-import 'package:dignify/screens/favourites_page.dart';
-import 'package:dignify/screens/home_page.dart';
-import 'package:dignify/screens/profile_page.dart';
+import 'package:dignify/screens/homepage/favourites_page.dart';
+import 'package:dignify/screens/homepage/home_page.dart';
+import 'package:dignify/screens/homepage/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 

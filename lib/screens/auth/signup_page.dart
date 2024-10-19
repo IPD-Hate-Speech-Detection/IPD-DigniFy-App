@@ -1,5 +1,5 @@
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/otp_verification.dart';
+import 'package:dignify/screens/auth/otp_verification.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

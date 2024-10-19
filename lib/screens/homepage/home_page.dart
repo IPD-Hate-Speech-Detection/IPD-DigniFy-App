@@ -1,5 +1,5 @@
-import 'package:dignify/screens/image_detection_page.dart';
-import 'package:dignify/screens/text_detection_page.dart';
+import 'package:dignify/screens/hate_detection/image_detection_page.dart';
+import 'package:dignify/screens/hate_detection/text_detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

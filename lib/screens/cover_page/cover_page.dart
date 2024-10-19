@@ -1,5 +1,5 @@
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/login_page.dart';
+import 'package:dignify/screens/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

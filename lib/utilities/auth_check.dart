@@ -1,4 +1,4 @@
-import 'package:dignify/screens/cover_page.dart';
+import 'package:dignify/screens/cover_page/cover_page.dart';
 import 'package:dignify/utilities/nav_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

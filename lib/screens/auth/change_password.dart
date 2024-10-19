@@ -1,5 +1,5 @@
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/login_page.dart';
+import 'package:dignify/screens/auth/login_page.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

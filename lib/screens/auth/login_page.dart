@@ -1,10 +1,10 @@
-import 'package:dignify/screens/change_password.dart';
+import 'package:dignify/screens/auth/change_password.dart';
 import 'package:dignify/utilities/auth_check.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/signup_page.dart';
+import 'package:dignify/screens/auth/signup_page.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {

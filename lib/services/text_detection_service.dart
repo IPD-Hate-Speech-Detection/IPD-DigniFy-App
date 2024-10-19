@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class EnglishTextDetectionService {
   static const String baseUrl =
-      'https://dj-dawgs-ipd-ipd-text-english-finetune.hf.space/call/classify_text';
+      'https://dj-dawgs-ipd-ipd-text-english-finetune.hf.space/call/predict';
 
   Future<String> getEnglishEventId(String text) async {
     final response = await http.post(
@@ -13,7 +13,7 @@ class EnglishTextDetectionService {
         "data": [text]
       }),
     );
-    print("englis start");
+    print("english start");
     if (response.statusCode == 200) {
       final responseBody = response.body;
       try {
