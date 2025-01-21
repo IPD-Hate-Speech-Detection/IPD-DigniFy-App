@@ -47,9 +47,9 @@ class EnglishTextDetectionService {
         // Decode the JSON data
         final List<dynamic> result = jsonDecode(dataLine);
 
-        // Extract label and probability
-        final String label = result[0];
-        final double probability = result[1];
+       
+        // final String label = result[0];
+        // final double probability = result[1];
 
         // Return as a map
         return result;

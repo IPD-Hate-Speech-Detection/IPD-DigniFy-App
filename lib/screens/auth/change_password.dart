@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  const ChangePassword({super.key}) ;
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
@@ -42,10 +42,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               backgroundColor: Colors.transparent,
               body: Stack(
                 children: [
-                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(top: 80, child: buildTop()),
                   Positioned(
                     bottom: 0,
-                    child: BottomBuild(),
+                    child: bottomBuild(),
                   ),
                 ],
               ),
@@ -53,7 +53,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     );
   }
 
-  Widget BuildTop() {
+  Widget buildTop() {
     return SizedBox(
       width: mediaSize.width,
       child: const Column(
@@ -72,7 +72,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     );
   }
 
-  Widget BottomBuild() {
+  Widget bottomBuild() {
     return SizedBox(
       width: mediaSize.width,
       child: Card(

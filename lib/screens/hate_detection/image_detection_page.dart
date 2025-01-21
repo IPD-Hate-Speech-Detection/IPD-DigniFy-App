@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:dignify/services/image_detection_service.dart';
-import 'dart:convert';
 
 class ImageDetectionPage extends StatefulWidget {
   const ImageDetectionPage({super.key});

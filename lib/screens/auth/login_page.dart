@@ -8,15 +8,15 @@ import 'package:dignify/screens/auth/signup_page.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key}) ;
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
- final TextEditingController _email = TextEditingController();
- final TextEditingController _password = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
   late Color myColor;
   late Size mediaSize;
   var _isObscure = true;
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
       decoration: BoxDecoration(
         color: myColor,
         image: DecorationImage(
-          image:const AssetImage("assets/images/login_background.jpg"),
+          image: const AssetImage("assets/images/login_background.jpg"),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             myColor.withOpacity(0.9),
@@ -46,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
               backgroundColor: Colors.transparent,
               body: Stack(
                 children: [
-                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(top: 80, child: buildTop()),
                   Positioned(
-                    child: BottomBuild(),
                     bottom: 0,
+                    child: bottomBuild(),
                   ),
                 ],
               ),
@@ -57,10 +57,10 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget BuildTop() {
+  Widget buildTop() {
     return SizedBox(
       width: mediaSize.width,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget BottomBuild() {
+  Widget bottomBuild() {
     return SizedBox(
       width: mediaSize.width,
       child: Card(
@@ -87,20 +87,20 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: BuildForm(),
+          padding:const EdgeInsets.all(32.0),
+          child: buildForm(),
         ),
       ),
     );
   }
 
-  Widget BuildForm() {
+  Widget buildForm() {
     return Form(
       key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+       const   Text(
             "Welcome",
             style: TextStyle(
               color: Colors.white,
@@ -108,9 +108,9 @@ class _LoginPageState extends State<LoginPage> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          Text("Please Login"),
-          SizedBox(height: 30),
-          BuildGreyText("Email Address"),
+       const   Text("Please Login"),
+       const   SizedBox(height: 30),
+          buildGreyText("Email Address"),
           TextFormField(
             controller: _email,
             validator: (value) {
@@ -132,8 +132,8 @@ class _LoginPageState extends State<LoginPage> {
             cursorColor: Colors.white,
             cursorHeight: 20,
           ),
-          SizedBox(height: 15),
-          BuildGreyText("Password"),
+         const SizedBox(height: 15),
+          buildGreyText("Password"),
           TextFormField(
             controller: _password,
             validator: (value) {
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: _isObscure,
             decoration: InputDecoration(
               hintText: "Enter your Password",
-              prefixIcon: Icon(Icons.lock),
+              prefixIcon:const Icon(Icons.lock),
               suffixIcon: IconButton(
                 onPressed: () {
                   _togglePasswordVisibility();
@@ -153,25 +153,25 @@ class _LoginPageState extends State<LoginPage> {
                 icon:
                     Icon(_isObscure ? Icons.visibility : Icons.visibility_off),
               ),
-              border: OutlineInputBorder(
+              border:const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blueGrey),
               ),
-              focusedBorder: OutlineInputBorder(
+              focusedBorder:const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.blueGrey, width: 2),
               ),
             ),
             cursorColor: Colors.white,
             cursorHeight: 20,
           ),
-          SizedBox(height: 15),
+         const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
                 onTap: () {
-                  Get.to(() => ChangePassword());
+                  Get.to(() =>const ChangePassword());
                 },
-                child: Text(
+                child:const Text(
                   "Forgot Password?",
                   style: TextStyle(
                     color: Colors.blue,
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ],
           ),
-          SizedBox(height: 15),
+          const SizedBox(height: 15),
           Center(
             child: SizedBox(
               width: double.infinity,
@@ -189,7 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     // If the form is valid, proceed with login
-                    SignIn();
+                    signIn();
                   }
                 },
                 style: ButtonStyle(
@@ -209,16 +209,16 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-          SizedBox(height: 10), // Add some spacing
+         const SizedBox(height: 10), 
           Center(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?"),
-                SizedBox(width: 5),
+              const  Text("Don't have an account?"),
+               const SizedBox(width: 5),
                 GestureDetector(
                   onTap: () {
-                    Get..to(SignUpPage());
+                    Get.to(()=>const SignUpPage());
                   },
                   child: const Text(
                     "Signup",
@@ -241,14 +241,14 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  Widget BuildGreyText(String text) {
+  Widget buildGreyText(String text) {
     return Text(
       text,
       style: TextStyle(color: Colors.grey),
     );
   }
 
-  SignIn() async {
+  signIn() async {
     try {
       setState(() {
         _isLoading = true;
@@ -259,8 +259,7 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      // Navigate to AuthCheck only when login is successful
-      Get.offAll(() => AuthCheck());
+      Get.offAll(() =>const AuthCheck());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential' || e.code == 'wrong-password') {
         setState(() {

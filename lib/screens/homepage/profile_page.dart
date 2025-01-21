@@ -15,32 +15,30 @@ class ProfilePage extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(email),
-              ElevatedButton(
-                onPressed: () {
-                  _signOut(context);
-                },
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(email),
+            ElevatedButton(
+              onPressed: () {
+                _signOut(context);
+              },
+              style: ButtonStyle(
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
                 ),
-                child: const Text(
-                  "Log Out",
-                ),
+                backgroundColor:
+                    MaterialStateProperty.all<Color>(primaryColor),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(Colors.black),
               ),
-            ],
-          ),
+              child: const Text(
+                "Log Out",
+              ),
+            ),
+          ],
         ),
       ),
     );

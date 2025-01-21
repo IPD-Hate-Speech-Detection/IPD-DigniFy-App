@@ -14,11 +14,10 @@ class OtpVerfiicationPage extends StatefulWidget {
   final String password;
   final String name;
   const OtpVerfiicationPage(
-      {Key? key,
+      {super.key,
       required this.email,
       required this.password,
-      required this.name})
-      : super(key: key);
+      required this.name});
 
   @override
   State<OtpVerfiicationPage> createState() => _OtpVerfiicationPageState();
@@ -65,8 +64,8 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
           }
         ],
         "subject": "OTP Verification",
-        "text": "Your OTP is ${generatedOtp}",
-        "html": "Your OTP is ${generatedOtp}"
+        "text": "Your OTP is $generatedOtp",
+        "html": "Your OTP is $generatedOtp"
       };
 
       // Make the HTTP POST request
@@ -113,22 +112,22 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
       decoration: BoxDecoration(
         color: myColor,
         image: DecorationImage(
-          image: AssetImage("assets/images/login_background.jpg"),
+          image: const AssetImage("assets/images/login_background.jpg"),
           fit: BoxFit.cover,
           colorFilter:
               ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
         ),
       ),
       child: _isLoading
-          ? LoadingIndicatorWidget()
+          ? const LoadingIndicatorWidget()
           : Scaffold(
               backgroundColor: Colors.transparent,
               body: Stack(
                 children: [
-                  Positioned(top: 80, child: BuildTop()),
+                  Positioned(top: 80, child: buildTop()),
                   Positioned(
-                    child: BottomBuild(),
                     bottom: 0,
+                    child: bottomBuild(),
                   ),
                 ],
               ),
@@ -136,10 +135,10 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
     );
   }
 
-  Widget BuildTop() {
+  Widget buildTop() {
     return SizedBox(
       width: mediaSize.width,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -155,7 +154,7 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
     );
   }
 
-  Widget BottomBuild() {
+  Widget bottomBuild() {
     return SizedBox(
       width: mediaSize.width,
       child: Card(
@@ -166,14 +165,14 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(32.0),
-          child: BuildForm(),
+          padding: const EdgeInsets.all(32.0),
+          child: buildForm(),
         ),
       ),
     );
   }
 
-  Widget BuildForm() {
+  Widget buildForm() {
     return Form(
       key: _formKey,
       child: Column(
@@ -184,13 +183,13 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
             style: TextStyle(
                 color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20),
-          Text("Enter the OTP sent to your email"),
+          const SizedBox(height: 20),
+          const Text("Enter the OTP sent to your email"),
           TextFormField(
             controller: _otp,
             keyboardType: TextInputType.number,
             maxLength: 6,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "OTP",
               prefixIcon: Icon(Icons.security),
               border: OutlineInputBorder(
@@ -207,7 +206,7 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
               return null;
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
