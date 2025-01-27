@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
         fontFamily: GoogleFonts.ptSans().fontFamily,
         colorScheme: const ColorScheme.dark(),
       ),
-      home: AudioDetectionPage(),
+      home: AuthCheck(),
     );
   }
 }

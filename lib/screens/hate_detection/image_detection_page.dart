@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -50,23 +51,31 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
     });
 
     try {
-      final String result = await _imageHateDetection.uploadImage(_filePath);
-      List<String> results =
-          result.split(', ').map((item) => item.trim()).toList();
+      final response = await _imageHateDetection.uploadImage(_filePath);
+      final prediction = response['prediction'] as Map<String, dynamic>;
+
+      final String predictionType = prediction['prediction'] ?? 'unknown';
+      final String label = prediction['label'] ?? 'unknown';
+      final double confidence = prediction['confidence'] ?? 0.0;
+      final String language = prediction['language'] ?? 'Not available';
+      final String hateText = prediction['hate_text'] ?? 'Not available';
 
       setState(() {
-        if (results[0] == "hate") {
-          _result = "The provided image contains Hateful Element(s)\n" +
-              (results.length > 1 ? "Detected Element: ${results[1]}" : "");
+        if (predictionType == "hate") {
+          _result = "The provided image contains Hateful Element(s)\n"
+              "Detected Element: $label\n"
+              "Confidence: ${(confidence * 100).toStringAsFixed(2)}%\n"
+              "Language: $language\n"
+              "Hate Text: $hateText";
         } else {
           _result = "The provided image does not contain Hateful Element";
         }
       });
     } catch (e) {
       setState(() {
-        _result = 'Error: $e';
-        _showErrorDialog(e.toString());
+        _result = '';
       });
+      _showErrorDialog(e.toString());
     } finally {
       setState(() {
         _isLoading = false;

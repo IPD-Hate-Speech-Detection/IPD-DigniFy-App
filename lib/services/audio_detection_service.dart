@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-class ImageHateDetection {
-  final String apiUrl = 'https://ipd-image-render-deploy.onrender.com/predict-image';
+class AudioHateDetection {
+  final String apiUrl = 'https://ipd-image-render-deploy.onrender.com/predict-audio';
 
-  Future<Map<String, dynamic>> uploadImage(String? filePath) async {
+  Future<Map<String, dynamic>> uploadAudio(String? filePath) async {
     if (filePath == null || filePath.isEmpty) {
       throw Exception('No file selected');
     }
@@ -21,10 +21,10 @@ class ImageHateDetection {
       request.files.add(await http.MultipartFile.fromPath(
         'file',
         filePath,
-        contentType: MediaType('image', 'jpeg'),
+        contentType: MediaType('audio', 'mpeg'), // Adjust based on file type
       ));
 
-      print("Uploading image...");
+      print("Uploading audio...");
       var response = await request.send();
 
       if (response.statusCode == 200) {
@@ -32,7 +32,7 @@ class ImageHateDetection {
         print("Response: $result");
 
         var decoded = jsonDecode(result);
-        if (decoded['prediction'] == null) {
+        if (decoded == null) {
           throw Exception('Invalid response format: missing prediction data');
         }
 

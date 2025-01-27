@@ -1,3 +1,5 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:dignify/screens/hate_detection/audio_detection.dart';
 import 'package:dignify/screens/hate_detection/image_detection_page.dart';
 import 'package:dignify/screens/hate_detection/text_detection_page.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +93,7 @@ class HomePage extends StatelessWidget {
                 height: 25,
               ),
               InkWell(
-                onTap: () => _showToast(context, "Coming soon"),
+                onTap: () => Get.to(AudioDetectionPage()),
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
@@ -109,7 +111,7 @@ class HomePage extends StatelessWidget {
                         ),
                         SizedBox(width: 20),
                         Text(
-                          "Video Detection",
+                          "Audio Detection",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 30,
