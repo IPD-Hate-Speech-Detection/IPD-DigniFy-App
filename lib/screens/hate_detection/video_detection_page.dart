@@ -1,65 +1,62 @@
+import 'dart:io';
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/services/audio_detection_service.dart';
+import 'package:dignify/services/video_detection_service.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:video_player/video_player.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 
-class AudioDetectionPage extends StatefulWidget {
-  const AudioDetectionPage({super.key});
+class VideoDetectionPage extends StatefulWidget {
+  const VideoDetectionPage({super.key});
 
   @override
-  State<AudioDetectionPage> createState() => _AudioDetectionPageState();
+  State<VideoDetectionPage> createState() => _VideoDetectionPageState();
 }
 
-class _AudioDetectionPageState extends State<AudioDetectionPage> {
+class _VideoDetectionPageState extends State<VideoDetectionPage> {
   String? pickedFileName;
   String? pickedFilePath;
-  AudioPlayer audioPlayer = AudioPlayer();
-  Duration currentDuration = Duration.zero;
-  Duration totalDuration = Duration.zero;
+  VideoPlayerController? _videoController;
   bool isPlaying = false;
   bool isLoading = false;
   String detectionResult = '';
+  double aspectRatio = 13 / 9;
 
-  final AudioHateDetectionService _audioHateDetectionService =
-      AudioHateDetectionService();
+  final VideoHateDetectionService _videoHateDetectionService =
+      VideoHateDetectionService();
 
   @override
-  void initState() {
-    super.initState();
-    setupAudioPlayer();
+  void dispose() {
+    _videoController?.dispose();
+    super.dispose();
   }
 
-  void setupAudioPlayer() {
-    audioPlayer.onDurationChanged.listen((duration) {
-      setState(() {
-        totalDuration = duration;
-      });
-    });
+  Future<void> initializeVideo(String filePath) async {
+    if (_videoController != null) {
+      await _videoController!.dispose();
+    }
 
-    audioPlayer.onPositionChanged.listen((position) {
+    _videoController = VideoPlayerController.file(File(filePath));
+
+    try {
+      await _videoController!.initialize();
       setState(() {
-        if (position <= totalDuration) {
-          currentDuration = position;
-        } else {
-          currentDuration = totalDuration;
+        aspectRatio = _videoController!.value.aspectRatio;
+      });
+      _videoController!.addListener(() {
+        if (mounted) {
+          setState(() {});
         }
       });
-    });
-
-    audioPlayer.onPlayerComplete.listen((_) {
-      setState(() {
-        currentDuration = totalDuration;
-        isPlaying = false;
-      });
-    });
+    } catch (e) {
+      _showErrorDialog("Error initializing video: $e");
+    }
   }
 
-  Future<void> pickAudioFile() async {
+  Future<void> pickVideoFile() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.audio,
+        type: FileType.video,
       );
 
       if (result != null) {
@@ -67,12 +64,10 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
           pickedFileName = result.files.single.name;
           pickedFilePath = result.files.single.path;
           detectionResult = '';
-          currentDuration = Duration.zero;
-          totalDuration = Duration.zero;
           isPlaying = false;
         });
 
-        await audioPlayer.setSourceUrl(pickedFilePath!);
+        await initializeVideo(pickedFilePath!);
       } else {
         setState(() {
           pickedFileName = "No file selected";
@@ -86,7 +81,7 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
 
   Future<void> detectHateSpeech() async {
     if (pickedFilePath == null || pickedFilePath!.isEmpty) {
-      _showErrorDialog("No audio file selected");
+      _showErrorDialog("No video file selected");
       return;
     }
 
@@ -97,16 +92,14 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
 
     try {
       final decoded =
-          await _audioHateDetectionService.uploadAudio(pickedFilePath);
-      print(decoded);
-      print(decoded.runtimeType);
+          await _videoHateDetectionService.uploadVideo(pickedFilePath);
 
       setState(() {
         if (decoded.containsKey('prediction')) {
           final prediction = decoded['prediction'];
 
           if (prediction == 'hate') {
-            detectionResult = "The audio contains hate speech\n";
+            detectionResult = "The video contains hate speech\n";
             if (decoded.containsKey('confidence') &&
                 decoded['confidence'] != null) {
               detectionResult +=
@@ -117,10 +110,10 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
               detectionResult += "Detected Text: ${decoded['hate_text']}\n";
             }
           } else {
-            detectionResult = "No hate speech detected in the audio";
+            detectionResult = "No hate speech detected in the video";
           }
         } else {
-          detectionResult = "Couldn't analyze the audio. Please try again.";
+          detectionResult = "Couldn't analyze the video. Please try again.";
         }
       });
     } catch (e) {
@@ -132,36 +125,24 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
     }
   }
 
-  double _getSliderValue() {
-    if (currentDuration.inSeconds.toDouble() >
-        totalDuration.inSeconds.toDouble()) {
-      return totalDuration.inSeconds.toDouble();
-    }
-    if (currentDuration.inSeconds.toDouble() < 0) {
-      return 0.0;
-    }
-    return currentDuration.inSeconds.toDouble();
-  }
-
-  double _getSliderMaxValue() {
-    return totalDuration.inSeconds.toDouble() > 0
-        ? totalDuration.inSeconds.toDouble()
-        : 1.0;
-  }
-
   Future<void> togglePlayPause() async {
-    if (isPlaying) {
-      await audioPlayer.pause();
-    } else {
-      await audioPlayer.resume();
-    }
+    if (_videoController == null) return;
+
     setState(() {
-      isPlaying = !isPlaying;
+      if (_videoController!.value.isPlaying) {
+        _videoController!.pause();
+      } else {
+        _videoController!.play();
+      }
+      isPlaying = _videoController!.value.isPlaying;
     });
   }
 
-  void seekAudio(Duration position) {
-    audioPlayer.seek(position);
+  String formatDuration(Duration duration) {
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final minutes = twoDigits(duration.inMinutes.remainder(60));
+    final seconds = twoDigits(duration.inSeconds.remainder(60));
+    return "$minutes:$seconds";
   }
 
   void _showErrorDialog(String message) {
@@ -182,24 +163,11 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
     );
   }
 
-  String formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-    return "$minutes:$seconds";
-  }
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Audio Detection'),
+        title: const Text('Video Detection'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -209,7 +177,7 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                "Pick an Audio to Detect",
+                "Pick a Video to Detect",
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -225,7 +193,7 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
                 width: double.infinity,
                 child: pickedFileName != null && pickedFileName!.isNotEmpty
                     ? Center(child: Text(pickedFileName.toString()))
-                    : const Center(child: Text("No audio picked")),
+                    : const Center(child: Text("No video picked")),
               ),
               const SizedBox(height: 15),
               Center(
@@ -240,36 +208,49 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
                     foregroundColor:
                         MaterialStateProperty.all<Color>(Colors.white),
                   ),
-                  onPressed: isLoading ? null : pickAudioFile,
-                  child: const Text("Pick Audio"),
+                  onPressed: isLoading ? null : pickVideoFile,
+                  child: const Text("Pick Video"),
                 ),
               ),
               const SizedBox(height: 20),
-              if (pickedFilePath != null) ...[
-                Slider(
-                  value: _getSliderValue(),
-                  min: 0.0,
-                  max: _getSliderMaxValue(),
-                  onChanged: (value) {
-                    if (value <= totalDuration.inSeconds.toDouble()) {
-                      seekAudio(Duration(seconds: value.toInt()));
-                    }
-                  },
+              if (_videoController != null &&
+                  _videoController!.value.isInitialized) ...[
+                AspectRatio(
+                  aspectRatio: aspectRatio,
+                  child: VideoPlayer(_videoController!),
                 ),
-                Text(
-                  "${formatDuration(currentDuration)} / ${formatDuration(totalDuration)}",
-                  style: const TextStyle(color: Colors.white),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        isPlaying ? Icons.pause : Icons.play_arrow,
+                        color: Colors.white,
+                      ),
+                      onPressed: togglePlayPause,
+                    ),
+                    Text(
+                      "${formatDuration(_videoController!.value.position)} / ${formatDuration(_videoController!.value.duration)}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  icon: Icon(isPlaying ? Icons.pause : Icons.play_arrow),
-                  onPressed:
-                      totalDuration.inSeconds > 0 ? togglePlayPause : null,
-                  color: Colors.white,
+                VideoProgressIndicator(
+                  _videoController!,
+                  allowScrubbing: true,
+                  colors: const VideoProgressColors(
+                    playedColor: Colors.blueGrey,
+                    bufferedColor: Colors.grey,
+                    backgroundColor: Colors.white,
+                  ),
                 ),
               ],
               const SizedBox(height: 20),
               SizedBox(
-                width: double.infinity,
+                width: MediaQuery.of(context)
+                    .size
+                    .width, // Ensures it takes full screen width
                 child: ElevatedButton(
                   style: ButtonStyle(
                     shape: WidgetStateProperty.all<OutlinedBorder>(

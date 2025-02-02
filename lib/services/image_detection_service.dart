@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 class ImageHateDetection {
-  final String apiUrl = 'https://ipd-image-render-deploy.onrender.com/predict-image';
+  final String apiUrl = 'https://ipd-image-render-deploy.onrender.com/predict';
 
   Future<Map<String, dynamic>> uploadImage(String? filePath) async {
     if (filePath == null || filePath.isEmpty) {

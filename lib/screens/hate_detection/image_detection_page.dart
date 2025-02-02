@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:dignify/constants/colors.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
-import 'package:audioplayers/audioplayers.dart';
 import 'package:dignify/screens/hate_detection/audio_detection.dart';
 import 'package:dignify/screens/hate_detection/image_detection_page.dart';
 import 'package:dignify/screens/hate_detection/text_detection_page.dart';
+import 'package:dignify/screens/hate_detection/video_detection_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -93,7 +93,7 @@ class HomePage extends StatelessWidget {
                 height: 25,
               ),
               InkWell(
-                onTap: () => Get.to(AudioDetectionPage()),
+                onTap: () => Get.to(const AudioDetectionPage()),
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
@@ -106,7 +106,7 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(
-                          Icons.video_call,
+                          Icons.audio_file,
                           size: 60,
                         ),
                         SizedBox(width: 20),
@@ -117,6 +117,39 @@ class HomePage extends StatelessWidget {
                               fontSize: 30,
                               color: Colors.amber),
                         )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              InkWell(
+                onTap: () => Get.to(const VideoDetectionPage()),
+                child: Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey.withOpacity(0.3),
+                    border: Border.all(color: Colors.blueGrey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.image,
+                          size: 60,
+                        ),
+                        SizedBox(width: 20),
+                        Text(
+                          "Video Detection",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                              color: Colors.amber),
+                        ),
                       ],
                     ),
                   ),
