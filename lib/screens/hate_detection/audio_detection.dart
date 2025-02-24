@@ -231,14 +231,14 @@ class _AudioDetectionPageState extends State<AudioDetectionPage> {
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     )),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey),
+                        WidgetStateProperty.all<Color>(Colors.blueGrey),
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                        WidgetStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: isLoading ? null : pickAudioFile,
                   child: const Text("Pick Audio"),

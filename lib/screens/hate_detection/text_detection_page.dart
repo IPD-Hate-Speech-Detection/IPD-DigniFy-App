@@ -207,15 +207,15 @@ class _TextDetectionPageState extends State<TextDetectionPage> {
                         _detectHateSpeech();
                       },
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                      WidgetStateProperty.all<Color>(primaryColor),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                      WidgetStateProperty.all<Color>(Colors.black),
                 ),
                 child: const Text(
                   "Detect Hate Speech",

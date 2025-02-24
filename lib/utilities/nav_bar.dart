@@ -1,4 +1,4 @@
-import 'package:dignify/screens/homepage/favourites_page.dart';
+import 'package:dignify/screens/homepage/research_paper_page.dart';
 import 'package:dignify/screens/homepage/home_page.dart';
 import 'package:dignify/screens/homepage/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +15,8 @@ class _NavBarState extends State<NavBar> {
   int myIndex = 0;
   final List _screens = [
     const HomePage(),
-   const FavouritesPage(),
-    ProfilePage(),
+    const ResearchPaperPage(),
+    const ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -43,8 +43,8 @@ class _NavBarState extends State<NavBar> {
                 text: "Home",
               ),
               GButton(
-                icon: Icons.favorite,
-                text: "Favourites",
+                icon: Icons.article,
+                text: "Research",
               ),
               GButton(
                 icon: Icons.person,

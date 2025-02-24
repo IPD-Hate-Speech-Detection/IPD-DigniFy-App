@@ -222,15 +222,15 @@ class _OtpVerfiicationPageState extends State<OtpVerfiicationPage> {
                   }
                 },
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                      WidgetStateProperty.all<Color>(primaryColor),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                      WidgetStateProperty.all<Color>(Colors.black),
                 ),
                 child: const Text(
                   "Verify Email",

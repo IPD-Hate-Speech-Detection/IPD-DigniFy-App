@@ -199,14 +199,14 @@ class _VideoDetectionPageState extends State<VideoDetectionPage> {
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape:WidgetStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     )),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey),
+                       WidgetStateProperty.all<Color>(Colors.blueGrey),
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                       WidgetStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: isLoading ? null : pickVideoFile,
                   child: const Text("Pick Video"),
@@ -250,7 +250,7 @@ class _VideoDetectionPageState extends State<VideoDetectionPage> {
               SizedBox(
                 width: MediaQuery.of(context)
                     .size
-                    .width, // Ensures it takes full screen width
+                    .width, 
                 child: ElevatedButton(
                   style: ButtonStyle(
                     shape: WidgetStateProperty.all<OutlinedBorder>(

@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dignify/constants/colors.dart';
-import 'package:dignify/screens/auth/otp_verification.dart';
+import 'package:dignify/screens/auth/login_page.dart';
 import 'package:dignify/widgets/loading_indicator_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -32,25 +33,26 @@ class _SignUpPageState extends State<SignUpPage> {
         decoration: BoxDecoration(
           color: myColor,
           image: DecorationImage(
-            image: AssetImage("assets/images/login_background.jpg"),
+            image: const AssetImage("assets/images/login_background.jpg"),
             fit: BoxFit.cover,
             colorFilter:
                 ColorFilter.mode(myColor.withOpacity(0.9), BlendMode.dstATop),
           ),
         ),
-        child:_isLoading?const LoadingIndicatorWidget(): Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Stack(
-            children: [
-              Positioned(top: 80, child: BuildTop()),
-              Positioned(
-                bottom: 0,
-                child: BottomBuild(),
-              
+        child: _isLoading
+            ? const LoadingIndicatorWidget()
+            : Scaffold(
+                backgroundColor: Colors.transparent,
+                body: Stack(
+                  children: [
+                    Positioned(top: 80, child: BuildTop()),
+                    Positioned(
+                      bottom: 0,
+                      child: BottomBuild(),
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
@@ -58,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget BuildTop() {
     return SizedBox(
       width: mediaSize.width,
-      child: Column(
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -85,7 +87,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.all(32.0),
+          padding: const EdgeInsets.all(32.0),
           child: BuildForm(),
         ),
       ),
@@ -103,11 +105,11 @@ class _SignUpPageState extends State<SignUpPage> {
             style: TextStyle(
                 color: Colors.white, fontSize: 32, fontWeight: FontWeight.w500),
           ),
-          SizedBox(height: 20),
-          Text("Enter Your Full Name"),
+          const SizedBox(height: 20),
+          const Text("Enter Your Full Name"),
           TextFormField(
             controller: _name,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Name",
               prefixIcon: Icon(Icons.person),
               border: OutlineInputBorder(
@@ -124,11 +126,11 @@ class _SignUpPageState extends State<SignUpPage> {
               return null;
             },
           ),
-          SizedBox(height: 15),
-          Text("Enter your Email Address"),
+          const SizedBox(height: 15),
+          const Text("Enter your Email Address"),
           TextFormField(
             controller: _email,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Email Address",
               prefixIcon: Icon(Icons.email),
               border: OutlineInputBorder(
@@ -149,12 +151,12 @@ class _SignUpPageState extends State<SignUpPage> {
               return null;
             },
           ),
-          SizedBox(height: 15),
-          Text("Enter new Password"),
+          const SizedBox(height: 15),
+          const Text("Enter new Password"),
           TextFormField(
             controller: _password,
             obscureText: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Password",
               prefixIcon: Icon(Icons.lock),
               border: OutlineInputBorder(
@@ -176,41 +178,43 @@ class _SignUpPageState extends State<SignUpPage> {
               return null;
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Center(
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  
                   if (_formKey.currentState!.validate()) {
-                    Get.to(() => OtpVerfiicationPage(
-                        email: _email.text,
-                        password: _password.text.trim(),
-                        name: _name.text));
+                    // Get.to(() => OtpVerfiicationPage(
+                    //     email: _email.text,
+                    //     password: _password.text.trim(),
+                    //     name: _name.text));
+
+                    createUser();
                   }
                 },
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                  backgroundColor: WidgetStateProperty.all<Color>(primaryColor),
+                  foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
                 ),
-                child: Text("Sign Up"),
+                child: const Text(
+                  "Sign Up",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Already have an account?"),
-              SizedBox(width: 5),
+              const Text("Already have an account?"),
+              const SizedBox(width: 5),
               GestureDetector(
                 onTap: () {
                   Get.back();
@@ -225,6 +229,47 @@ class _SignUpPageState extends State<SignUpPage> {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  createUser() async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _email.text.trim(),
+        password: _password.text.trim(),
+      );
+      Get.offAll(() =>const LoginPage());
+      try {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userCredential.user!.uid)
+            .set({
+          'name': _name.text,
+          'email': _email.text.trim(),
+          'password': _password.text.trim(),
+          'joinDate': DateTime.now().millisecondsSinceEpoch,
+        });
+
+        // print("Firebase response1111 ${response}");
+      } catch (exception) {
+        print("Error Saving Data at firestore $exception");
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.message == 'The given password is invalid.') {
+        _showToast("Password should be atleast 6 characters long");
+      } else if (e.message ==
+          'The email address is already in use by another account.') {
+        _showToast("Account already exists with this email");
+      }
+    }
+  }
+
+  _showToast(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
       ),
     );
   }

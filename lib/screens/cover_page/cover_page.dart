@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CoverPage extends StatelessWidget {
-  const CoverPage({Key? key});
+  const CoverPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class CoverPage extends StatelessWidget {
                   left: 0,
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.black.withValues(alpha: 0.5),
                     child: const Text(
                       "Detect Hate Speech",
                       style: TextStyle(
@@ -107,15 +107,15 @@ class CoverPage extends StatelessWidget {
                   Get.to(() => const LoginPage());
                 },
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                      WidgetStateProperty.all<Color>(primaryColor),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                      WidgetStateProperty.all<Color>(Colors.black),
                 ),
                 child: const Text(
                   "Start Detecting",

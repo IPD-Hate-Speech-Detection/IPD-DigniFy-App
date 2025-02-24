@@ -130,7 +130,7 @@ class HomePage extends StatelessWidget {
                 child: Container(
                   height: 120,
                   decoration: BoxDecoration(
-                    color: Colors.blueGrey.withOpacity(0.3),
+                    color: Colors.blueGrey.withValues(alpha: 0.3),
                     border: Border.all(color: Colors.blueGrey),
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -139,7 +139,7 @@ class HomePage extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(
-                          Icons.image,
+                          Icons.video_call,
                           size: 60,
                         ),
                         SizedBox(width: 20),

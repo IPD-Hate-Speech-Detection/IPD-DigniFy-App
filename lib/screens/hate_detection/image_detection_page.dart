@@ -139,15 +139,15 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
               Center(
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.blueGrey),
+                        WidgetStateProperty.all<Color>(Colors.blueGrey),
                     foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                        WidgetStateProperty.all<Color>(Colors.white),
                   ),
                   onPressed: _isLoading ? null : _pickImage,
                   child: const Text("Pick Image"),
@@ -156,15 +156,15 @@ class _ImageDetectionPageState extends State<ImageDetectionPage> {
               const SizedBox(height: 12),
               ElevatedButton(
                 style: ButtonStyle(
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
                     ),
                   ),
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(primaryColor),
+                      WidgetStateProperty.all<Color>(primaryColor),
                   foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
+                      WidgetStateProperty.all<Color>(Colors.black),
                 ),
                 onPressed: _isLoading ? null : _uploadImage,
                 child: const Text(
