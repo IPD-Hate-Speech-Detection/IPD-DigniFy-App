@@ -1,4 +1,4 @@
-# Dignify - Hate Speech Detection
+# DigniFy - Hate Speech Detection
 
 Dignify is a Flutter-based mobile application designed to detect hate speech across multiple media types using advanced AI models. It leverages the HF Space API to analyze text, audio, images, and videos for offensive or harmful content.
 
