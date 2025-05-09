@@ -1,6 +1,4 @@
-import 'package:dignify/screens/hate_detection/audio_detection.dart';
 import 'package:dignify/screens/homepage/splash_screen.dart';
-import 'package:dignify/utilities/auth_check.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';

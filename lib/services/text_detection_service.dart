@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class EnglishTextDetectionService {
-  static const String baseUrl =
-      'https://dj-dawgs-ipd-ipd-text-english-finetune.hf.space/call/predict';
+  static const String baseUrl = 'https://dj-dawgs-ipd-ipd-english-text-model.hf.space/call/predict';
+
 
   Future<String> getEnglishEventId(String text) async {
     final response = await http.post(
@@ -63,8 +63,8 @@ class EnglishTextDetectionService {
 }
 
 class HinglishTextDetectionService {
-  static const String hinglishBaseUrl =
-      'https://dj-dawgs-ipd-ipd-text-hinglish.hf.space/call/predict';
+  static const String hinglishBaseUrl = 'https://dj-dawgs-ipd-ipd-hinglish-text-model.hf.space/call/predict';
+
 
   // Function to send text for classification (Hinglish)
   Future<String> getHinglishEventId(String text) async {
